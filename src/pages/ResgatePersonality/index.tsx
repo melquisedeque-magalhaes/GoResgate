@@ -11,7 +11,14 @@ import {
     SafeAreaView,
 } from 'react-native';
 
-import {Container, Title, Header, ContainerActions} from './styles';
+import {
+    Container,
+    Title,
+    Header,
+    ContainerActions,
+    ButtonContainer,
+    ButtonTitle,
+} from './styles';
 
 import Investment from '../../components/Investment';
 
@@ -41,7 +48,6 @@ interface InvestmentProps {
 const ResgatePersonality: React.FC = () => {
     const [investments, setInvestments] = useState<InvestmentProps[]>([]);
     const [nomeInvestment, setNomeInvestment] = useState('');
-    const [maxValue, setMaxValue] = useState(0);
 
     useEffect(() => {
         api.get('v2/5e76797e2f0000f057986099')
@@ -88,48 +94,60 @@ const ResgatePersonality: React.FC = () => {
     }, []);
 
     return (
-        <SafeAreaView style={{flex: 1}}>
-            <ScrollView
-                keyboardShouldPersistTaps="handled"
-                contentContainerStyle={{flex: 1}}>
-                <Container>
-                    <Header>
-                        <Title>DADOS DO INVESTIMENTO</Title>
-                    </Header>
+        <>
+            <KeyboardAvoidingView
+                style={{flex: 1}}
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                enabled>
+                <ScrollView keyboardShouldPersistTaps="handled">
+                    <Container>
+                        <Header>
+                            <Title>DADOS DO INVESTIMENTO</Title>
+                        </Header>
 
-                    <Investment keyData="Nome" value={investmentFind?.nome} />
-                    <Investment
-                        keyData="Saldo Total Disponivel"
-                        value={investmentFind?.saldoTotalDisponivel}
-                    />
+                        <Investment
+                            keyData="Nome"
+                            value={investmentFind?.nome}
+                        />
+                        <Investment
+                            keyData="Saldo Total Disponivel"
+                            value={investmentFind?.saldoTotalDisponivel}
+                        />
 
-                    <Header>
-                        <Title>RESGATE DO SEU JEITO</Title>
-                    </Header>
+                        <Header>
+                            <Title>RESGATE DO SEU JEITO</Title>
+                        </Header>
 
-                    {investmentFind?.acoes.map((action) => (
-                        <ContainerActions key={action.id}>
-                            <Investment keyData="Ação" value={action.nome} />
-                            <Investment
-                                keyData="Saldo Total Disponivel"
-                                value={
-                                    (investmentFind?.saldoTotalDisponivel *
-                                        action.percentual) /
-                                    100
-                                }
-                            />
-                            <Form onSubmit={HandleSubmit} ref={formRef}>
-                                <Input
-                                    keyboardType="decimal-pad"
-                                    name="value"
-                                    placeholder="Valor a resgatar"
+                        {investmentFind?.acoes.map((action) => (
+                            <ContainerActions key={action.id}>
+                                <Investment
+                                    keyData="Ação"
+                                    value={action.nome}
                                 />
-                            </Form>
-                        </ContainerActions>
-                    ))}
-                </Container>
-            </ScrollView>
-        </SafeAreaView>
+                                <Investment
+                                    keyData="Saldo Total Disponivel"
+                                    value={
+                                        (investmentFind?.saldoTotalDisponivel *
+                                            action.percentual) /
+                                        100
+                                    }
+                                />
+                                <Form onSubmit={HandleSubmit} ref={formRef}>
+                                    <Input
+                                        keyboardType="decimal-pad"
+                                        name="value"
+                                        placeholder="Valor a resgatar"
+                                    />
+                                </Form>
+                            </ContainerActions>
+                        ))}
+                    </Container>
+                </ScrollView>
+            </KeyboardAvoidingView>
+            <ButtonContainer>
+                <ButtonTitle>Resgatar</ButtonTitle>
+            </ButtonContainer>
+        </>
     );
 };
 

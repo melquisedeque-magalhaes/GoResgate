@@ -5,6 +5,7 @@ export const Container = styled.View`
     background-color: #f4f4f4;
     border-color: #fae13d;
     border-top-width: 5px;
+    margin-bottom: 30px;
 `;
 
 export const Header = styled.View`
@@ -22,4 +23,21 @@ export const Title = styled.Text`
 
 export const ContainerActions = styled.View`
     margin-bottom: 16px;
+`;
+
+export const ButtonContainer = styled.TouchableOpacity`
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    background-color: #FAE13D;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+`;
+
+export const ButtonTitle = styled.Text`
+    color: #005AA5;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
 `;
