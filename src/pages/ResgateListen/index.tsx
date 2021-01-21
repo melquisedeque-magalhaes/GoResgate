@@ -60,7 +60,11 @@ const Listen: React.FC = () => {
             {investments.map((investment, index) => (
                 <ContainerInvestment
                     key={index}
-                    onPress={() => navigationRoutes(investment.nome)}
+                    onPress={
+                        investment.indicadorCarencia === 'S'
+                            ? () => {}
+                            : () => navigationRoutes(investment.nome)
+                    }
                     isDisabled={
                         investment.indicadorCarencia === 'S' ? true : false
                     }>
